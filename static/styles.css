@@ -1,0 +1,93 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #121212; /* Dark background */
+    color: #e0e0e0; /* Light text for contrast */
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.container {
+    background: #1e1e1e; /* Slightly lighter dark container */
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    max-width: 400px;
+    width: 100%;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+h1 {
+    text-align: center;
+    color: #00ff88; /* Bright green for headers */
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+label {
+    margin-top: 10px;
+    font-weight: bold;
+    color: #e0e0e0;
+}
+
+input, textarea {
+    margin-top: 5px;
+    padding: 12px;
+    border: 2px solid #333; /* Border for input */
+    border-radius: 8px;
+    background-color: #222; /* Dark background for inputs */
+    color: #e0e0e0; /* Light text */
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input:focus, textarea:focus {
+    border-color: #00ff88; /* Bright green focus effect */
+    outline: none;
+}
+
+button {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #00ff88; /* Bright green for button */
+    color: #1e1e1e; /* Dark text for contrast */
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+button:hover {
+    background-color: #00cc6e; /* Slightly darker green on hover */
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+button:active {
+    transform: scale(0.98); /* Slight press effect */
+}
+
+.suggestion {
+    margin-top: 20px;
+    padding: 15px;
+    background: #2a2a2a; /* Dark background for suggestions */
+    border-left: 4px solid #00ff88; /* Green accent line */
+    border-radius: 5px;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
