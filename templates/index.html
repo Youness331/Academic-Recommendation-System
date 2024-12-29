@@ -3,31 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Suggest Tool</title>
+    <title>Journal and Article Recommendations</title>
     <link rel="stylesheet" href="/static/styles.css">
 </head>
-<body>
-    <div class="container">
-        <h1>Journal Suggestion Tool</h1>
-        <form action="/suggest" method="post">
-            <label for="title">Title:</label>
-            <input type="text" id="title" name="title" required>
-
-            <label for="abstract">Abstract:</label>
-            <textarea id="abstract" name="abstract" required></textarea>
-
-            <label for="keywords">Keywords:</label>
-            <input type="text" id="keywords" name="keywords" required>
-
-            <button type="submit">Suggest</button>
+<body id="recommend-body">
+    <div class="recommend-container">
+        <h1 class="recommend-header">Journal and Article Recommendations</h1>
+        <form id="recommend-form" action="/suggest" method="POST">
+            <div class="form-group">
+                <label for="title" class="recommend-label">Title</label>
+                <input type="text" id="title" name="title" class="recommend-input" placeholder="Enter title" required>
+            </div>
+            <div class="form-group">
+                <label for="abstract" class="recommend-label">Abstract</label>
+                <textarea id="abstract" name="abstract" class="recommend-textarea" rows="5" placeholder="Enter abstract" required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="keywords" class="recommend-label">Keywords</label>
+                <input type="text" id="keywords" name="keywords" class="recommend-input" placeholder="Enter keywords" required>
+            </div>
+            <button type="submit" class="recommend-btn">Suggest</button>
         </form>
-
-        {% if suggestion %}
-        <div class="suggestion">
-            <h2>Suggestion:</h2>
-            <p>{{ suggestion }}</p>
-        </div>
-        {% endif %}
     </div>
 </body>
 </html>

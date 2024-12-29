@@ -1,93 +1,301 @@
-body {
-    font-family: Arial, sans-serif;
-    background: #121212; /* Dark background */
-    color: #e0e0e0; /* Light text for contrast */
+/* Base styles for the page */
+#recommend-body {
     margin: 0;
-    padding: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: radial-gradient(circle, #0a0f16, #081b26, #051119);
+    color: #e4e4e4;
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
-.container {
-    background: #1e1e1e; /* Slightly lighter dark container */
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
-    max-width: 400px;
-    width: 100%;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-h1 {
+.recommend-container {
+    max-width: 900px;
+    width: 90%;
+    padding: 40px;
+    background: rgba(15, 25, 40, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 204, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
     text-align: center;
-    color: #00ff88; /* Bright green for headers */
+    animation: fadeIn 1.5s ease-out;
 }
 
-form {
-    display: flex;
-    flex-direction: column;
-}
-
-label {
-    margin-top: 10px;
+.recommend-header {
+    margin-bottom: 30px;
+    font-size: 38px;
     font-weight: bold;
-    color: #e0e0e0;
+    color: #00a680;
+    text-shadow: 0 4px 15px rgba(0, 166, 128, 0.8), 0 -2px 10px rgba(0, 166, 128, 0.4);
+    letter-spacing: 1.8px;
 }
 
-input, textarea {
-    margin-top: 5px;
-    padding: 12px;
-    border: 2px solid #333; /* Border for input */
-    border-radius: 8px;
-    background-color: #222; /* Dark background for inputs */
-    color: #e0e0e0; /* Light text */
+#recommend-form {
+    width: 100%;
+    margin-top: 20px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    text-align: left;
+}
+
+.recommend-label {
+    display: block;
     font-size: 16px;
-    transition: border-color 0.3s ease;
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #00ffcc;
+    text-shadow: 0 2px 8px rgba(0, 255, 204, 0.6);
 }
 
-input:focus, textarea:focus {
-    border-color: #00ff88; /* Bright green focus effect */
+.recommend-input,
+.recommend-textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    background: rgba(10, 15, 20, 0.8);
+    color: #ffffff;
+    font-size: 14px;
+    font-family: 'Poppins', Arial, sans-serif;
+    box-shadow: inset 0 4px 8px rgba(0, 255, 204, 0.1);
+    transition: all 0.3s ease;
+}
+
+.recommend-input:focus,
+.recommend-textarea:focus {
     outline: none;
+    background: rgba(15, 25, 40, 0.9);
+    box-shadow: 0 4px 10px rgba(0, 255, 204, 0.4);
 }
 
-button {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #00ff88; /* Bright green for button */
-    color: #1e1e1e; /* Dark text for contrast */
-    border: none;
-    border-radius: 8px;
+.recommend-btn {
+    background: linear-gradient(135deg, #005e4d, #003f33);
+    border: 2px solid #00a680;
+    color: #e0f6f4;
+    padding: 14px 30px;
     font-size: 16px;
     font-weight: bold;
+    border-radius: 30px;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    transition: transform 0.4s, box-shadow 0.4s, background 0.4s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 166, 128, 0.3);
+    margin-top: 15px;
 }
 
-button:hover {
-    background-color: #00cc6e; /* Slightly darker green on hover */
-    transform: scale(1.05); /* Slight zoom on hover */
+.recommend-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 25px rgba(0, 166, 128, 0.8), inset 0 0 10px rgba(0, 166, 128, 0.6);
+    background: linear-gradient(135deg, #007d68, #004c3d);
 }
 
-button:active {
-    transform: scale(0.98); /* Slight press effect */
-}
-
-.suggestion {
-    margin-top: 20px;
-    padding: 15px;
-    background: #2a2a2a; /* Dark background for suggestions */
-    border-left: 4px solid #00ff88; /* Green accent line */
-    border-radius: 5px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
+/* Fade-in animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
+        transform: scale(0.9);
     }
     to {
         opacity: 1;
+        transform: scale(1);
+    }
+}
+
+
+
+/* Base styles for the recommendation page */
+.recommend-body {
+    margin: 0;
+    font-family: 'Poppins', Arial, sans-serif;
+    background: radial-gradient(circle, #0a0f16, #081b26, #051119);
+    color: #e4e4e4;
+    display: block; /* Remove flexbox centering */
+    padding: 20px 0; /* Add padding at the top and bottom */
+    height: auto; /* Let the body height adjust to content */
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+}
+
+.recommend-container {
+    max-width: 900px;
+    width: 90%;
+    padding: 40px;
+    background: rgba(15, 25, 40, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8), inset 0 0 15px rgba(0, 255, 204, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    text-align: center;
+    animation: fadeIn 1.5s ease-out;
+    margin: 20px auto; /* Add vertical space above and center horizontally */
+}
+
+
+
+.recommend-header {
+    margin-bottom: 20px;
+    font-size: 38px;
+    font-weight: bold;
+    color: #00a680;
+    text-shadow: 0 4px 15px rgba(0, 166, 128, 0.8), 0 -2px 10px rgba(0, 166, 128, 0.4);
+    letter-spacing: 1.8px;
+}
+
+.recommend-toggle-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 25px;
+    gap: 25px;
+}
+
+.recommend-btn {
+    background: linear-gradient(135deg, #005e4d, #003f33);
+    border: 2px solid #00a680;
+    color: #e0f6f4;
+    padding: 12px 26px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: transform 0.4s, box-shadow 0.4s, background 0.4s;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 166, 128, 0.3);
+}
+
+.recommend-btn::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+    transition: all 0.6s;
+    opacity: 0;
+    transform: scale(0);
+    z-index: 1;
+}
+
+.recommend-btn:hover::before {
+    opacity: 1;
+    transform: scale(1.2);
+}
+
+.recommend-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 12px 25px rgba(0, 166, 128, 0.8), inset 0 0 10px rgba(0, 166, 128, 0.6);
+    background: linear-gradient(135deg, #007d68, #004c3d);
+}
+
+.recommend-section {
+    margin: 30px 0;
+}
+
+.recommend-subheader {
+    margin-bottom: 15px;
+    font-size: 28px;
+    color: #00ffcc;
+    text-shadow: 0 6px 12px rgba(0, 255, 204, 0.8);
+}
+
+.recommend-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.recommend-item {
+    margin: 20px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 16px;
+    padding: 15px 20px;
+    background: rgba(5, 10, 15, 0.8);
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.7), inset 0 0 5px rgba(0, 255, 204, 0.1);
+    position: relative;
+    overflow: hidden;
+    transition: transform 0.4s, box-shadow 0.4s;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.recommend-item:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 255, 204, 0.5), inset 0 0 15px rgba(0, 255, 204, 0.2);
+}
+
+.recommend-name {
+    flex: 1;
+    text-align: left;
+    font-weight: bold;
+    z-index: 2;
+    color: #ffffff;
+}
+
+.recommend-progress-container {
+    flex: 2;
+    background: #09141f;
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 0 10px;
+    height: 15px;
+    position: relative;
+    z-index: 2;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.recommend-progress-bar {
+    height: 100%;
+    background: linear-gradient(135deg, #00ffcc, #007d68);
+    box-shadow: 0 4px 8px rgba(0, 255, 204, 0.4);
+    transition: width 0.5s ease;
+}
+
+.recommend-percentage {
+    flex: 1;
+    text-align: right;
+    font-weight: bold;
+    z-index: 2;
+    color: #00ffcc;
+}
+
+.recommend-new-btn {
+    margin-top: 30px;
+    background: linear-gradient(135deg, transparent, #00a680);
+    color: #00ffcc;
+    border: 2px solid #00a680;
+    padding: 14px 30px;
+    font-size: 18px;
+    border-radius: 50px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: all 0.5s ease;
+    box-shadow: 0 6px 20px rgba(0, 166, 128, 0.5);
+}
+
+.recommend-new-btn:hover {
+    background: linear-gradient(135deg, #00a680, #005e4d);
+    color: #ffffff;
+    transform: scale(1.15);
+    box-shadow: 0 12px 35px rgba(0, 166, 128, 0.8);
+}
+
+/* Keyframe animation for fade-in effect */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
     }
 }

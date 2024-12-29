@@ -1,19 +1,51 @@
 from flask import Flask, render_template, request
-import pickle
 import pandas as pd
+import joblib
+from sklearn.metrics.pairwise import cosine_similarity
 
 app = Flask(__name__)
 
-# Load pretrained KNN model and vectorizer
-with open("knn_model.pkl", "rb") as model_file:
-    knn_model = pickle.load(model_file)
+# Paths to required files
+TOKENIZER_PATH = "tfidf.pkl"
+KMEANS_PATH = "kmeans_model.pkl"
+ARTICLES_PATH = "Articles_clustered.csv"
 
-with open("vectorizer.pkl", "rb") as vectorizer_file:
-    vectorizer = pickle.load(vectorizer_file)
+# Load articles dataset
+Articles = pd.read_csv(ARTICLES_PATH)
 
-# Load your dataset (replace 'dataset.csv' with your file)
-dataset = pd.read_csv("journal_info.csv")  # Assuming your dataset includes a "Journal" column
-journal_names = dataset["title"].tolist()  # Extract journal names
+def clean_text(text):
+    """Simple text cleaner function."""
+    return " ".join(text.lower().split())
+
+def predict_kmeans(title, abstract, keywords, tokenizer_path, kmeans_path, Articles, k=5):
+    # Load tokenizer (TF-IDF vectorizer) and KMeans model
+    tfidf = joblib.load(tokenizer_path)
+    kmeans = joblib.load(kmeans_path)
+
+    # Combine input text
+    input_text = title + ' ' + abstract + ' ' + keywords
+
+    # Clean and transform the input text
+    text = clean_text(input_text)
+    text_vector = tfidf.transform([text])  # Transform into TF-IDF vector
+
+    # Predict the cluster of the input text
+    cluster = kmeans.predict(text_vector)
+
+    # Filter articles based on the predicted cluster
+    A = pd.DataFrame(Articles[Articles["cluster"] == cluster[0]])
+
+    if 'combined' in A.columns:
+        article_vectors = tfidf.transform(A['combined'])
+        
+        # Compute cosine similarity
+        similarities = cosine_similarity(text_vector, article_vectors)[0]
+        A['similarity'] = similarities * 100  # Convert similarity to percentage
+        
+        # Sort by similarity and return top `k` results
+        return A.sort_values(by='similarity', ascending=False).head(k)
+
+    return pd.DataFrame()  # Return empty if no cluster match
 
 @app.route('/')
 def index():
@@ -21,22 +53,27 @@ def index():
 
 @app.route('/suggest', methods=['POST'])
 def suggest():
-    # Get user input
-    title = request.form.get('title')
-    abstract = request.form.get('abstract')
-    keywords = request.form.get('keywords')
+    # Get user inputs
+    title = request.form.get('title', '')
+    abstract = request.form.get('abstract', '')
+    keywords = request.form.get('keywords', '')
 
-    # Combine inputs into a single text input
-    user_input = f"{title} {abstract} {keywords}"
+    # Predict the top journals and articles
+    recommendations = predict_kmeans(title, abstract, keywords, TOKENIZER_PATH, KMEANS_PATH, Articles, k=5)
 
-    # Transform input using the vectorizer
-    user_vector = vectorizer.transform([user_input])
+    if not recommendations.empty:
+        # Split recommendations into journals and articles
+        journals = recommendations[['journal_name', 'similarity']].drop_duplicates().to_dict(orient='records')
+        articles = recommendations[['title', 'similarity']].drop_duplicates().to_dict(orient='records')
+    else:
+        journals = []
+        articles = []
 
-    # Get top 5 nearest journals
-    distances, indices = knn_model.kneighbors(user_vector, n_neighbors=5)
-    recommended_journals = [journal_names[i] for i in indices[0]]  # Map indices to journal names
+    return render_template(
+        'results.html',
+        journals=journals,
+        articles=articles,
+    )
 
-    return render_template('index.html', suggestion=recommended_journals)
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     app.run(debug=True)

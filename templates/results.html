@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommendations</title>
+    <link rel="stylesheet" href="/static/styles.css">
+    <script>
+        function toggleView(view) {
+            document.getElementById('recommend-journals').style.display = view === 'journals' ? 'block' : 'none';
+            document.getElementById('recommend-articles').style.display = view === 'articles' ? 'block' : 'none';
+        }
+    </script>
+</head>
+<body class="recommend-body">
+    <div class="recommend-container">
+        <h1 class="recommend-header">Recommended Results</h1>
+        <div class="recommend-toggle-buttons">
+            <button class="recommend-btn" onclick="toggleView('journals')">Recommended Journals</button>
+            <button class="recommend-btn" onclick="toggleView('articles')">Recommended Articles</button>
+        </div>
+        <div id="recommend-journals" class="recommend-section">
+            <h2 class="recommend-subheader">Journals</h2>
+            <ul class="recommend-list">
+                {% for journal in journals %}
+                <li class="recommend-item">
+                    <span class="recommend-name">{{ journal.journal_name }}</span>
+                    <div class="recommend-progress-container">
+                        <div class="recommend-progress-bar" style="width: {{ journal.similarity }}%;"></div>
+                    </div>
+                    <span class="recommend-percentage">{{ journal.similarity|round(2) }}%</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div id="recommend-articles" class="recommend-section" style="display: none;">
+            <h2 class="recommend-subheader">Articles</h2>
+            <ul class="recommend-list">
+                {% for article in articles %}
+                <li class="recommend-item">
+                    <span class="recommend-name">{{ article.title }}</span>
+                    <div class="recommend-progress-container">
+                        <div class="recommend-progress-bar" style="width: {{ article.similarity }}%;"></div>
+                    </div>
+                    <span class="recommend-percentage">{{ article.similarity|round(2) }}%</span>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        <button onclick="window.location.href='/'" class="recommend-new-btn">New Suggestion</button>
+    </div>
+</body>
+</html>
