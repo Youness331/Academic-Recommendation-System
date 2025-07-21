@@ -11,7 +11,25 @@ A comprehensive data integration and machine learning project that provides inte
 - **Modern Web Interface**: Clean, responsive design built with Bootstrap 5
 - **Multi-Database Integration**: Combines data from Google Scholar, Web of Science, and Scopus
 
-## 📊 Project Structure
+## � Screenshots
+
+### Homepage
+![Homepage](screens/homepage.png)
+*Clean and intuitive interface for entering research descriptions*
+
+### Journal Recommendations
+![Journal Recommendations](screens/res1.png)
+*Comprehensive journal recommendations with detailed metrics*
+
+### Article Recommendations
+![Article Recommendations](screens/res2.png)
+*Similar articles and research cluster analysis*
+
+### Statistics Dashboard
+![Statistics Dashboard](screens/statistics.png)
+*Interactive dashboard with database insights and analytics*
+
+## �📊 Project Structure
 
 ```
 Data-Integration/
@@ -64,32 +82,22 @@ joblib>=1.0.0
 
 ### 1. Clone the Repository
 ```bash
-git clone https://github.com/FadwaTY/Data-Integration.git
+git clone https://github.com/Youness331/Academic-Recommendation-System.git
 cd Data-Integration
 ```
 
-### 2. Create Virtual Environment (Recommended)
-```bash
-# Windows
-python -m venv venv
-venv\Scripts\activate
 
-# macOS/Linux
-python3 -m venv venv
-source venv/bin/activate
-```
-
-### 3. Install Dependencies
+### 2. Install Dependencies
 ```bash
 pip install flask pandas scikit-learn nltk numpy joblib
 ```
 
-### 4. Download NLTK Data
+### 3. Download NLTK Data
 ```python
 python -c "import nltk; nltk.download('punkt'); nltk.download('stopwords'); nltk.download('wordnet')"
 ```
 
-### 5. Run the Application
+### 4. Run the Application
 ```bash
 python app.py
 ```
@@ -172,18 +180,7 @@ The system integrates data from multiple academic databases:
 2. Retrain K-Means model
 3. Update cluster-related visualizations
 
-### UI Customization
-- Modify `static/styles.css` for styling changes
-- Update HTML templates for layout modifications
-- Adjust Bootstrap classes for responsive behavior
 
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
 
 ## 📝 License
 
