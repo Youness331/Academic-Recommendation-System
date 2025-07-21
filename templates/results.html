@@ -3,51 +3,278 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recommendations</title>
-    <link rel="stylesheet" href="/static/styles.css">
-    <script>
-        function toggleView(view) {
-            document.getElementById('recommend-journals').style.display = view === 'journals' ? 'block' : 'none';
-            document.getElementById('recommend-articles').style.display = view === 'articles' ? 'block' : 'none';
-        }
-    </script>
+    <title>Journal Recommendations - Academic Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
 </head>
-<body class="recommend-body">
-    <div class="recommend-container">
-        <h1 class="recommend-header">Recommended Results</h1>
-        <div class="recommend-toggle-buttons">
-            <button class="recommend-btn" onclick="toggleView('journals')">Recommended Journals</button>
-            <button class="recommend-btn" onclick="toggleView('articles')">Recommended Articles</button>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Journal Recommender
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link" href="/stats">Statistics</a>
+            </div>
         </div>
-        <div id="recommend-journals" class="recommend-section">
-            <h2 class="recommend-subheader">Journals</h2>
-            <ul class="recommend-list">
-                {% for journal in journals %}
-                <li class="recommend-item">
-                    <span class="recommend-name">{{ journal.journal_name }}</span>
-                    <div class="recommend-progress-container">
-                        <div class="recommend-progress-bar" style="width: {{ journal.similarity }}%;"></div>
+    </nav>
+
+    <div class="container my-5">
+        {% if error %}
+        <div class="alert alert-danger" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
+            {{ error }}
+        </div>
+        <div class="text-center">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-arrow-left me-2"></i>
+                Try Again
+            </a>
+        </div>
+        {% else %}
+        
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h1 class="h2 mb-0">
+                        <i class="fas fa-lightbulb text-warning me-2"></i>
+                        Your Recommendations
+                    </h1>
+                    <a href="/" class="btn btn-outline-primary">
+                        <i class="fas fa-plus me-2"></i>
+                        New Search
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cluster Information -->
+        {% if cluster_info %}
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="card border-info">
+                    <div class="card-body">
+                        <h5 class="card-title text-info">
+                            <i class="fas fa-info-circle me-2"></i>
+                            Analysis Results
+                        </h5>
+                        <div class="row text-center">
+                            <div class="col-md-3">
+                                <div class="metric-value">{{ cluster_info.cluster_id + 1 }}</div>
+                                <div class="metric-label">Research Cluster</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-value">{{ cluster_info.total_articles }}</div>
+                                <div class="metric-label">Similar Articles</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-value">{{ cluster_info.top_similarity }}%</div>
+                                <div class="metric-label">Best Match</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="metric-value">{{ cluster_info.avg_similarity }}%</div>
+                                <div class="metric-label">Avg. Similarity</div>
+                            </div>
+                        </div>
                     </div>
-                    <span class="recommend-percentage">{{ journal.similarity|round(2) }}%</span>
-                </li>
-                {% endfor %}
-            </ul>
+                </div>
+            </div>
         </div>
-        <div id="recommend-articles" class="recommend-section" style="display: none;">
-            <h2 class="recommend-subheader">Articles</h2>
-            <ul class="recommend-list">
-                {% for article in articles %}
-                <li class="recommend-item">
-                    <span class="recommend-name">{{ article.title }}</span>
-                    <div class="recommend-progress-container">
-                        <div class="recommend-progress-bar" style="width: {{ article.similarity }}%;"></div>
+        {% endif %}
+
+        <!-- Journal Recommendations -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <h3 class="mb-4">
+                    <i class="fas fa-journal-whills text-primary me-2"></i>
+                    Recommended Journals
+                    <span class="badge bg-primary ms-2">{{ journals|length }}</span>
+                </h3>
+                
+                {% if journals %}
+                <div class="row">
+                    {% for journal in journals %}
+                    <div class="col-md-6 mb-4">
+                        <div class="card h-100 shadow-sm border-0">
+                            <div class="card-header bg-gradient-success">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <h5 class="card-title mb-0 text-dark">
+                                        <i class="fas fa-book me-2 text-white"></i>
+                                        {{ journal.name[:50] }}{% if journal.name|length > 50 %}...{% endif %}
+                                    </h5>
+                                    <span class="badge bg-light text-dark">
+                                        {{ journal.similarity }}% match
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <strong>ISSN:</strong>
+                                        <span class="text-muted">{{ journal.issn }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>H-Index:</strong>
+                                        <span class="badge bg-info">{{ journal.h_index }}</span>
+                                    </div>
+                                </div>
+                                
+                                <div class="row mb-3">
+                                    <div class="col-6">
+                                        <strong>Quartile:</strong>
+                                        {% set quartile_class = 'success' if journal.quartile == 'Q1' else 'warning' if journal.quartile == 'Q2' else 'info' if journal.quartile == 'Q3' else 'secondary' %}
+                                        <span class="badge bg-{{ quartile_class }}">{{ journal.quartile }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        <strong>SJR Score:</strong>
+                                        <span class="text-primary fw-bold">{{ journal.sjr_score }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <strong>Impact Factor:</strong>
+                                        <span class="text-success fw-bold">{{ journal.impact_factor }}</span>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-3">
+                                    <div class="col-12">
+                                        <strong>Publisher:</strong>
+                                        <span class="text-muted">{{ journal.publisher }}</span>
+                                    </div>
+                                </div>
+
+                                {% if journal.scope != 'N/A' %}
+                                <div class="mb-3">
+                                    <strong>Scope:</strong>
+                                    <p class="text-muted small mb-0">
+                                        {{ journal.scope[:150] }}{% if journal.scope|length > 150 %}...{% endif %}
+                                    </p>
+                                </div>
+                                {% endif %}
+
+                                <div class="row">
+                                    <div class="col-6">
+                                        <small class="text-muted">
+                                            <i class="fas fa-chart-bar me-1"></i>
+                                            {{ journal.total_articles }} articles
+                                        </small>
+                                    </div>
+                                    <div class="col-6">
+                                        <small class="text-muted">
+                                            <i class="fas fa-quote-right me-1"></i>
+                                            Avg: {{ journal.avg_citations }} citations
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer bg-light">
+                                <small class="text-muted">
+                                    <i class="fas fa-lightbulb me-1"></i>
+                                    Recommended based on: {{ journal.recommended_based_on }}
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                    <span class="recommend-percentage">{{ article.similarity|round(2) }}%</span>
-                </li>
-                {% endfor %}
-            </ul>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No journal recommendations found. Try adjusting your research description.
+                </div>
+                {% endif %}
+            </div>
         </div>
-        <button onclick="window.location.href='/'" class="recommend-new-btn">New Suggestion</button>
+
+        <!-- Article Recommendations -->
+        <div class="row">
+            <div class="col-12">
+                <h3 class="mb-4">
+                    <i class="fas fa-file-alt text-secondary me-2"></i>
+                    Similar Articles
+                    <span class="badge bg-secondary ms-2">{{ articles|length }}</span>
+                </h3>
+                
+                {% if articles %}
+                <div class="row">
+                    {% for article in articles %}
+                    <div class="col-12 mb-3">
+                        <div class="card border-0 shadow-sm">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-md-8">
+                                        <h5 class="card-title text-primary">
+                                            {{ article.title }}
+                                        </h5>
+                                        <p class="text-muted mb-2">
+                                            <i class="fas fa-users me-1"></i>
+                                            {{ article.authors }}
+                                        </p>
+                                        <p class="card-text">
+                                            {{ article.abstract }}
+                                        </p>
+                                        <div class="d-flex gap-3 text-muted small">
+                                            <span>
+                                                <i class="fas fa-calendar me-1"></i>
+                                                {{ article.year }}
+                                            </span>
+                                            <span>
+                                                <i class="fas fa-quote-right me-1"></i>
+                                                {{ article.citations }} citations
+                                            </span>
+                                            {% if article.doi != 'N/A' %}
+                                            <span>
+                                                <i class="fas fa-link me-1"></i>
+                                                DOI: {{ article.doi }}
+                                            </span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <div class="mb-2">
+                                            <span class="badge bg-primary fs-6">
+                                                {{ article.similarity }}% match
+                                            </span>
+                                        </div>
+                                        <div class="text-muted">
+                                            <strong>Published in:</strong><br>
+                                            <span class="text-info">{{ article.journal }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    No similar articles found in our database.
+                </div>
+                {% endif %}
+            </div>
+        </div>
+        {% endif %}
     </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">
+                &copy; 2025 Academic Journal Recommendation System. 
+                Powered by Machine Learning & NLP.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

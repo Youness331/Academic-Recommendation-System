@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Statistics - Academic Recommendation System</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='styles.css') }}" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow">
+        <div class="container">
+            <a class="navbar-brand" href="/">
+                <i class="fas fa-graduation-cap me-2"></i>
+                Journal Recommender
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="/">Home</a>
+                <a class="nav-link active" href="/stats">Statistics</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container my-5">
+        <!-- Header -->
+        <div class="row mb-5">
+            <div class="col-12 text-center">
+                <h1 class="display-4 mb-3">
+                    <i class="fas fa-chart-bar text-primary me-3"></i>
+                    Database Statistics
+                </h1>
+                <p class="lead text-muted">
+                    Comprehensive overview of our academic database
+                </p>
+            </div>
+        </div>
+
+        <!-- Main Statistics Cards -->
+        <div class="row mb-5">
+            <div class="col-md-3 mb-4">
+                <div class="card bg-primary text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-file-alt fa-3x mb-3"></i>
+                        <h3 class="card-title">{{ "{:,}".format(stats.total_articles) }}</h3>
+                        <p class="card-text">Total Articles</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card bg-success text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-journal-whills fa-3x mb-3"></i>
+                        <h3 class="card-title">{{ "{:,}".format(stats.total_journals) }}</h3>
+                        <p class="card-text">Unique Journals</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card bg-info text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-sitemap fa-3x mb-3"></i>
+                        <h3 class="card-title">{{ stats.total_clusters }}</h3>
+                        <p class="card-text">Research Clusters</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="card bg-warning text-white h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-quote-right fa-3x mb-3"></i>
+                        <h3 class="card-title">{{ "{:,}".format(stats.citation_stats.total_citations|int) }}</h3>
+                        <p class="card-text">Total Citations</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Citation Statistics -->
+        <div class="row mb-5">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-quote-right text-primary me-2"></i>
+                            Citation Statistics
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row text-center">
+                            <div class="col-md-4">
+                                <div class="metric-box">
+                                    <h3 class="text-primary">{{ "{:.1f}".format(stats.citation_stats.avg_citations) }}</h3>
+                                    <p class="text-muted">Average Citations</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="metric-box">
+                                    <h3 class="text-success">{{ "{:,}".format(stats.citation_stats.max_citations|int) }}</h3>
+                                    <p class="text-muted">Highest Citations</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="metric-box">
+                                    <h3 class="text-info">{{ "{:,}".format(stats.citation_stats.total_citations|int) }}</h3>
+                                    <p class="text-muted">Total Citations</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Cluster Distribution -->
+        <div class="row mb-5">
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-sitemap text-primary me-2"></i>
+                            Research Clusters Distribution
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        {% for cluster_id, count in stats.cluster_distribution.items() %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold">Cluster {{ cluster_id|int + 1 }}</span>
+                                <span class="badge bg-primary">{{ count }} articles</span>
+                            </div>
+                            <div class="progress" style="height: 8px;">
+                                <div class="progress-bar" role="progressbar" 
+                                     style="width: {{ (count / stats.total_articles * 100)|round(1) }}%">
+                                </div>
+                            </div>
+                            <small class="text-muted">{{ (count / stats.total_articles * 100)|round(1) }}% of total</small>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Top Journals -->
+            <div class="col-lg-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-trophy text-warning me-2"></i>
+                            Top Journals by Articles
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        {% for journal, count in stats.top_journals.items() %}
+                        <div class="mb-3">
+                            <div class="d-flex justify-content-between align-items-center mb-1">
+                                <span class="fw-bold text-truncate" style="max-width: 70%;">{{ journal }}</span>
+                                <span class="badge bg-success">{{ count }}</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" role="progressbar" 
+                                     style="width: {{ (count / stats.top_journals.values()|list|max * 100)|round(1) }}%">
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Database Information -->
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="mb-0">
+                            <i class="fas fa-info-circle text-primary me-2"></i>
+                            Database Information
+                        </h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Data Sources</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>Google Scholar</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Web of Science</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Scopus</li>
+                                </ul>
+                            </div>
+                            <div class="col-md-6">
+                                <h6 class="text-primary">Analysis Methods</h6>
+                                <ul class="list-unstyled">
+                                    <li><i class="fas fa-check text-success me-2"></i>TF-IDF Vectorization</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>K-Means Clustering</li>
+                                    <li><i class="fas fa-check text-success me-2"></i>Similarity Matching</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white py-4 mt-5">
+        <div class="container text-center">
+            <p class="mb-0">
+                &copy; 2025 Academic Journal Recommendation System. 
+                Powered by Machine Learning & NLP.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
