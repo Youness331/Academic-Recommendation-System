@@ -114,7 +114,7 @@
     margin: 0;
     font-family: 'Poppins', Arial, sans-serif;
     background: radial-gradient(circle, #0a0f16, #081b26, #051119);
-    color: #e4e4e4;
+    color: #3dc248;
     display: block; /* Remove flexbox centering */
     padding: 20px 0; /* Add padding at the top and bottom */
     height: auto; /* Let the body height adjust to content */
@@ -157,7 +157,7 @@
 .recommend-btn {
     background: linear-gradient(135deg, #005e4d, #003f33);
     border: 2px solid #00a680;
-    color: #e0f6f4;
+    color: #f6e0ea00;
     padding: 12px 26px;
     font-size: 16px;
     font-weight: bold;
@@ -298,4 +298,56 @@
         opacity: 1;
         transform: scale(1);
     }
+}
+
+/* Hero Section - Minimal padding */
+.hero-section {
+    padding: 0.3rem 0 !important;
+    margin-bottom: 0.3rem !important;
+}
+
+/* Main Form Section - Subtle shadow border only */
+.card.shadow-sm {
+    border: none !important;
+    margin-top: 0.3rem !important;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.15), 
+                0 0 40px rgba(0, 0, 0, 0.1), 
+                inset 0 0 0 1px rgba(0, 0, 0, 0.05) !important;
+}
+
+.card-header {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+    background: #ffffff !important;
+    padding: 1rem !important;
+}
+
+.card-body {
+    padding: 1.5rem !important;
+}
+
+/* Reduce spacing in form */
+.mb-3 {
+    margin-bottom: 1rem !important;
+}
+
+/* Form controls padding */
+.form-control,
+.form-control-lg {
+    padding: 0.75rem 1rem !important;
+}
+
+/* Form labels */
+.form-label {
+    margin-bottom: 0.5rem !important;
+}
+
+/* Form text helper */
+.form-text {
+    margin-top: 0.5rem !important;
+    padding-left: 0.25rem !important;
+}
+
+/* Button padding */
+.btn-lg {
+    padding: 0.75rem 1.5rem !important;
 }

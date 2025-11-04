@@ -24,57 +24,31 @@
     </nav>
 
     <!-- Hero Section -->
-    <div class="hero-section bg-gradient-primary text-white py-3">
+    <div class="hero-section bg-gradient-primary text-white" style="padding: 0.2rem 0 !important; margin: 0 !important;">
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-8">
-                    <h1 class="display-5 fw-bold mb-3">
-                        Find the Perfect Journal for Your Research
-                    </h1>
-                    <p class="lead mb-3">
-                        AI-powered journal recommendations based on content similarity and metrics.
-                    </p>
-                    <div class="stats-row d-flex gap-4 mb-0">
-                        <div class="stat-item">
-                            <div class="stat-number">{{ stats.total_articles or 0 }}</div>
-                            <div class="stat-label">Articles</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">{{ stats.total_journals or 0 }}</div>
-                            <div class="stat-label">Journals</div>
-                        </div>
-                        <div class="stat-item">
-                            <div class="stat-number">{{ stats.total_clusters or 0 }}</div>
-                            <div class="stat-label">Research Areas</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <div class="hero-image text-center">
-                        <i class="fas fa-search fa-6x opacity-50"></i>
-                    </div>
+                    <h1 class="h5 fw-bold mb-1">Find the Perfect Journal for Your Research</h1>
+                    <p class="mb-0 small">AI-powered journal recommendations based on content similarity and metrics.</p>
                 </div>
             </div>
         </div>
     </div>
 
     <!-- Main Form Section -->
-    <div class="container my-3">
+    <div class="container" style="margin-top: 0.5rem !important; padding-top: 0 !important;">
         <div class="row justify-content-center">
             <div class="col-lg-8">
-                <div class="card shadow-lg border-0 rounded-3">
-                    <div class="card-header bg-white border-0 text-center py-3">
-                        <h2 class="mb-2">
+                <div class="card shadow-sm border-0 rounded-3">
+                    <div class="card-header bg-white border-0">
+                        <h2 class="h5 mb-0 text-center">
                             <i class="fas fa-edit text-primary me-2"></i>
                             Submit Your Research Details
                         </h2>
-                        <p class="text-muted mb-0">
-                            Provide your research information to get personalized journal recommendations
-                        </p>
                     </div>
-                    <div class="card-body p-4">
+                    <div class="card-body">
                         <form method="POST" action="/suggest" id="recommendationForm">
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 <label for="title" class="form-label fw-bold">
                                     <i class="fas fa-heading text-primary me-2"></i>
                                     Research Title
@@ -90,7 +64,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 <label for="abstract" class="form-label fw-bold">
                                     <i class="fas fa-file-alt text-primary me-2"></i>
                                     Abstract
@@ -98,7 +72,7 @@
                                 <textarea class="form-control" 
                                           id="abstract" 
                                           name="abstract" 
-                                          rows="6" 
+                                          rows="4" 
                                           placeholder="Paste your research abstract here..."
                                           maxlength="3000"></textarea>
                                 <div class="form-text">
@@ -111,7 +85,7 @@
                                 </div>
                             </div>
 
-                            <div class="mb-4">
+                            <div class="mb-3">
                                 <label for="keywords" class="form-label fw-bold">
                                     <i class="fas fa-tags text-primary me-2"></i>
                                     Keywords
@@ -140,35 +114,35 @@
         </div>
 
         <!-- How It Works Section -->
-        <div class="row mt-5">
+        <div class="row mt-3 how-it-works">
             <div class="col-12">
-                <h3 class="text-center mb-5">How Our Recommendation System Works</h3>
+                <h3 class="text-center mb-3 h5">How Our Recommendation System Works</h3>
                 <div class="row">
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-brain fa-3x text-primary"></i>
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="feature-icon mb-2">
+                            <i class="fas fa-brain fa-2x text-primary"></i>
                         </div>
-                        <h5>AI Analysis</h5>
+                        <h5 class="h6">AI Analysis</h5>
                         <p class="text-muted">
                             Our machine learning algorithm analyzes your research content 
                             using advanced NLP techniques
                         </p>
                     </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-project-diagram fa-3x text-primary"></i>
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="feature-icon mb-2">
+                            <i class="fas fa-project-diagram fa-2x text-primary"></i>
                         </div>
-                        <h5>Content Clustering</h5>
+                        <h5 class="h6">Content Clustering</h5>
                         <p class="text-muted">
                             We cluster similar research topics and match your work 
                             with relevant academic domains
                         </p>
                     </div>
-                    <div class="col-md-4 text-center mb-4">
-                        <div class="feature-icon mb-3">
-                            <i class="fas fa-award fa-3x text-primary"></i>
+                    <div class="col-md-4 text-center mb-3">
+                        <div class="feature-icon mb-2">
+                            <i class="fas fa-award fa-2x text-primary"></i>
                         </div>
-                        <h5>Quality Metrics</h5>
+                        <h5 class="h6">Quality Metrics</h5>
                         <p class="text-muted">
                             Recommendations include journal impact factors, H-index, 
                             and other quality indicators
@@ -180,7 +154,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white py-4 mt-5">
+    <footer class="bg-dark text-white py-3 mt-3">
         <div class="container text-center">
             <p class="mb-0">
                 &copy; 2025 Academic Journal Recommendation System. 
